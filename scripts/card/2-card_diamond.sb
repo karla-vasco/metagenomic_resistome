@@ -18,9 +18,9 @@ echo Using $SLURM_NTASKS processors across $SLURM_NNODES nodes
 
 ######### Assign path variables ########
 
-INPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/hmd-arg/ORFs
-OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/CARD/mapped_unique
-DATABASE_PATH=/mnt/scratch/vascokar/mastitis_study/data/card/protein/card-homolog.dmnd
+INPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/prodigal-contigs
+OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/CARD/mapped
+DATABASE_PATH=/mnt/scratch/vascokar/mastitis_study/data/card/card-homolog.dmnd
 
 ########## Modules to Load ##########
 module purge
