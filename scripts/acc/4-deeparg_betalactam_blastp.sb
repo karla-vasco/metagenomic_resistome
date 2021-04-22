@@ -17,8 +17,8 @@ echo Directory is `pwd`
 echo Using $SLURM_NTASKS processors across $SLURM_NNODES nodes
 
 ######### Assign path variables ########
-INPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/ARG_host/prodigal_ORF
-OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/ARG_host/blastp
+INPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/ARG_host/acc-deepARG/prodigal_betalactam
+OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/ARG_host/acc-deepARG/blastp
 
 ########## Modules to Load ##########
 module purge
