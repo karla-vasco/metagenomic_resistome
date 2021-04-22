@@ -1,7 +1,7 @@
 # metagenomic_resistome
 This repository contains all the scripts used for metagenomic processing and resistome analysis. Four different pipelines were compared for resistome characterization. First, metagenome sequences from cattle feces were analyzed with AmrPlusPlus for sequence processing and ARG annotations with the MEGARES 2.0 database. Then, host-removed metagenomes were used for DNA assembly and further annotations with DeepARG, CARD, and HMD-ARG which are protein databases to identify antimicrobial determinants. Finally, ARG-host identification was carried out by identifying taxa associated with ARG-carrying contigs and co-occurrence networks between bacterial taxa and ARGs. Statistical analyses were used to identify assembler performance and resistome composition.
 
-Here you will find two directories: "data" and "scripts". The 'data' folder contain nextera adapter fasta file (needed in the AmrPlusPlus workflow), and resistome databases (fasta and annotations in csv format). The scripts' directory has codes organized by step. 
+Here you will find two directories: "data" and "scripts". The 'data' folder contains nextera adapter fasta file (needed in the AmrPlusPlus workflow), and resistome databases (fasta and annotations in csv format). The scripts' directory has codes organized by step. 
 
 ![image](https://github.com/karla-vasco/metagenomic_resistome/blob/main/metagenomic_approac_resistome.png)
 
