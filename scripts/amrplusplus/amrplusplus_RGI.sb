@@ -20,7 +20,7 @@ echo Using $SLURM_NTASKS processors across $SLURM_NNODES nodes
 
 INPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/data/raw_sequences
 HOST_PATH=/mnt/scratch/vascokar/mastitis_study/data/host/Bos_taurus.ARS-UCD1.2.dna.toplevel.fa.gz
-CARD_DB_PATH=/mnt/scratch/vascokar/mastitis_study/data/CARD/card.json
+CARD_DB_PATH=/mnt/scratch/vascokar/mastitis_study/data/card/card.json
 ADAPTERS_PATH=/mnt/scratch/vascokar/mastitis_study/data/adapters/nextera.fa
 OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/AmrPlusPlusv2
 WORKING_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/AmrPlusPlusv2/work_dir
