@@ -27,7 +27,7 @@ do
 deeparg predict \
     --model LS \
     -i $INPUT_DIRECTORY/${n}/scaffolds.fasta \
-    -o $OUTPUT_DIRECTORY/${n}scaffolds_deeparg \
+    -o $OUTPUT_DIRECTORY/${n}_scaffolds_deeparg \
     -d $DEEPARG_DATA \
     --type nucl \
     --min-prob 0.8 \
