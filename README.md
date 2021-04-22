@@ -9,11 +9,11 @@ Here you will find two directories: "data" and "scripts". The 'data' folder cont
 1. amrplusplus = metagenomic processing with AmrPlusPlus v2.0 and read-based metagenome annotations with MEGARES 2.0 and RGI.
 2. assembly = metagenome assembly with MEGAHIT and MetaSPADES. Assembly evaluation with metaQUAST.
 3. deeparg = resistome annotations of assembled contigs with deepARG.
-4. protein_translation = gene prediction and translation of contigs with Prodigal. Outputs consist on amino acid fasta files.
-5. card = resistome annotations of translated contigs with the CARD database.
-6. hmdarg = resistome annotations of translated contigs with the HMD-ARG database.
-7. acc = antimicrobial-resistant-gene-carrying contig (ACC) analysis with BLASTP. Contigs carrying ARG to the drug-class beta-lactam were analyzed. ACCs identified with either DeepARG or HMD-ARG were extracted with seqtk and annotated with BLASTP.
-8. seq_count = bacteria sequences count with Kraken2. 
+4. protein_translation = gene prediction and translation of contigs with Prodigal. Outputs consist of amino acid fasta files.
+5. card = resistome annotations of translated contigs with the CARD database. Annotations were analyzed with ResistomeAnalyzer (https://github.com/cdeanj/resistomeanalyzer).
+6. hmdarg = resistome annotations of translated contigs with the HMD-ARG database. Annotations were analyzed with ResistomeAnalyzer (https://github.com/cdeanj/resistomeanalyzer).
+7. acc = antimicrobial-resistant-gene-carrying contig (ACC) analysis with BLASTP. Contigs carrying ARG to the drug-class beta-lactam were analyzed. ACCs identified with either DeepARG or HMD-ARG were extracted with seqtk (https://github.com/lh3/seqtk) and annotated with BLASTP.
+8. seq_count = bacterial sequences count with Kraken2. 
 
 ## References
 1.	Nurk S, Meleshko D, Korobeynikov A, Pevzner PA. metaSPAdes: a new versatile metagenomic assembler. Genome Res. 2017;27:824–34.
