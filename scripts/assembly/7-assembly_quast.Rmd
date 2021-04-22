@@ -39,11 +39,9 @@ ggdensity(metaquast_ref$`N50 (Kbp)`)
 total = metaquast_combref %>%
   select(assembler, `N50 (Kbp)`)
 wilcox.test(data = total,  `N50 (Kbp)` ~ assembler, alternative = c("two.sided", "less", "greater"), paired = F, conf.level = 0.95)
-
-#the total CFU/g is greather in Group A in block 5. The other blocks had similar number of CFU between groups. No significant fdifference overall
 ```
 
-#REFERENCE
+#RUNS PER REFERENCE
 ```{r}
 N50_ref = metaquast_ref %>%
   ggplot(aes(y = `N50 (Kbp)`, x = assembler, fill = assembler)) + 
