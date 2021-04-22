@@ -1,6 +1,6 @@
 #!/bin/bash --login
 INPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/hmd-arg/mapped
-OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/ARG_host/acc-hmdarg
+OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/ARG_host/acc-hmdarg/betalactam-list
 
 cd $INPUT_DIRECTORY
 
