@@ -1,0 +1,43 @@
+#!/bin/bash --login
+ 
+########## Define Resources Needed with SBATCH Lines ##########
+#SBATCH --job-name=metaSPAdes    # give your job a name for easier identification (same as -J)
+#SBATCH --time=168:00:00        # limit of wall clock time - how long will the job take to run? (same as -t)
+#SBATCH --ntasks=1           # number of tasks - how many tasks (nodes) does your job require? (same as -n)
+#SBATCH --cpus-per-task=16    # number of CPUs (or cores) per task (same as -c)
+#SBATCH --mem=384G             # memory required per node - amount of memory (in bytes)
+#SBATCH --output=/mnt/scratch/vascokar/mastitis_study/eofiles/metaSPAdes.%j.out #Standard output
+#SBATCH --error=/mnt/scratch/vascokar/mastitis_study/eofiles/metaSPAdes.%j.err #Standard error log
+
+########## Diplay the job context ######
+echo Job: $SLUM_JOB_NAME with ID $SLURM_JOB_ID
+echo Running on host `hostname`
+echo Job started at `date '+%T %a %d %b %Y'`
+echo Directory is `pwd`
+echo Using $SLURM_NTASKS processors across $SLURM_NNODES nodes
+
+######### Assign path variables ########
+
+INPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/all/NonHostReads
+OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/metaSPAdes
+
+########## Modules to Load ##########
+module load GCC/5.4.0-2.26  OpenMPI/1.10.3
+module load SPAdes/3.13.0
+
+cd $INPUT_DIRECTORY
+
+for f in *.non.host.R1.fastq.gz # for each sample f
+do
+  n=${f%%.non.host.R1.fastq.gz} # strip part of file name
+
+mkdir $OUTPUT_DIRECTORY/${n}
+
+/opt/software/SPAdes/3.13.0-foss-2016b/bin/spades.py --meta \
+-o $OUTPUT_DIRECTORY/${n} \
+-1 $INPUT_DIRECTORY/${n}.non.host.R1.fastq.gz \
+-2 $INPUT_DIRECTORY/${n}.non.host.R2.fastq.gz 
+done
+
+##### Final time stamp ######
+echo Job finished at `date '+%T %a %d %b %Y'`

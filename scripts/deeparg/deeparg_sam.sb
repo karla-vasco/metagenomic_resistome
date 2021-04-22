@@ -1,0 +1,35 @@
+#!/bin/bash --login
+########## Define Resources Needed with SBATCH Lines ##########
+#SBATCH --job-name=daa_sam    # give your job a name for easier identification (same as -J)
+#SBATCH --time=24:00:00        # limit of wall clock time - how long will the job take to run? (same as -t)
+#SBATCH --ntasks=2           # number of tasks - how many tasks (nodes) does your job require? (same as -n)
+#SBATCH --cpus-per-task=12    # number of CPUs (or cores) per task (same as -c)
+#SBATCH --mem=200G             # memory required per node - amount of memory (in bytes)
+#SBATCH --output=/mnt/scratch/vascokar/mastitis_study/eofiles/daa_sam.%j.out #Standard output
+#SBATCH --error=/mnt/scratch/vascokar/mastitis_study/eofiles/daa_sam.%j.err #Standard error log
+
+######### Assign path variables ########
+
+INPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/deepARG/contigs
+
+########## Modules to Load ##########
+module purge
+module load DIAMOND/2.0.1
+
+########## Code to Run ###########
+
+cd $INPUT_DIRECTORY
+
+for f in *contigs_deeparg.align.daa # for each sample f
+do
+  n=${f%%contigs_deeparg.align.daa} # strip part of file name
+
+diamond view \
+--daa $INPUT_DIRECTORY/${n}contigs_deeparg.align.daa \
+--out $INPUT_DIRECTORY/${n}_deeparg_matches.sam \
+--outfmt 101
+
+done
+
+##### Final time stamp ######
+echo Job finished at `date '+%T %a %d %b %Y'`

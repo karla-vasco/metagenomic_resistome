@@ -1,0 +1,48 @@
+#!/bin/bash --login  
+ 
+########## Define Resources Needed with SBATCH Lines ##########
+#SBATCH --job-name=kmer_query # give your job a name for easier identification (same as -J)
+#SBATCH --time=168:00:00 # limit of wall clock time - how long will the job take to run? (same as -t)
+#SBATCH --ntasks=1     # number of tasks - how many tasks (nodes) does your job require? (same as -n)
+#SBATCH --cpus-per-task=4 # number of CPUs (or cores) per task (same as -c)
+#SBATCH --mem=50G     # memory required per node - amount of memory (in bytes)
+#SBATCH --output=/mnt/scratch/vascokar/mastitis_study/eofiles/kmer_query.%j.out #Standard output
+#SBATCH --error=/mnt/scratch/vascokar/mastitis_study/eofiles/kmer_query.%j.err #Standard error log
+
+########## Diplay the job context ######
+echo Job: $SLUM_JOB_NAME with ID $SLURM_JOB_ID
+echo Running on host `hostname`
+echo Job started at `date '+%T %a %d %b %Y'`
+echo Directory is `pwd`
+echo Using $SLURM_NTASKS processors across $SLURM_NNODES nodes
+
+######### Assign path variables ########
+
+INPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/RGI/main
+OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/RGI/kmer_query
+
+########## Modules to Load ##########
+
+module purge
+module load Conda/3
+
+########## Code to Run ###########
+
+export PATH=$PATH:$HOME/anaconda3/bin
+conda init bash
+conda activate rgi
+
+cd $INPUT_DIRECTORY
+for f in *_rgi.out.json; # for each sample file
+do
+  n=${f%%_rgi.out.json} # strip the file name
+
+rgi kmer_query --rgi --kmer_size 61 --threads 8 --minimum 10 \
+--input $INPUT_DIRECTORY/${n}_rgi.out.json \
+--output $OUTPUT_DIRECTORY/${n}_kmer
+done
+
+conda deactivate
+
+##### Final time stamp ######
+echo Job finished at `date '+%T %a %d %b %Y'`

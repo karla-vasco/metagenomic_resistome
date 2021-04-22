@@ -1,0 +1,403 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+library(tidyverse)
+library(ggplot2)
+#install.packages("gganimate")
+#library(gganimate)
+library("ggpubr")
+library(ggsci)
+```
+
+```{r}
+setwd("/Users/karlavasco/OneDrive\ -\ Michigan\ State\ University/Manning_lab/AMR/results/QUAST")
+
+#merging 2 files same ID --> first column on both files
+metaquast_ref =read.table("metaquast_reference.csv", sep = ",", header = TRUE,  na.strings = "",check.names = F) 
+metaquast_noalign =read.table("metaquast_not_aligned.csv", sep = ",", header = TRUE,  na.strings = "",check.names = F) 
+metaquast_combref =read.table("metaquast_combined_reference.csv", sep = ",", header = TRUE,  na.strings = "",check.names = F) 
+```
+
+#STATISTICS
+#normality tests
+```{r}
+shapiro.test(metaquast_ref$`N50 (Kbp)`) #significant p-value = non normal
+```
+```{r}
+ggqqplot(metaquast_ref$`N50 (Kbp)`) #Q-Q plot (or quantile-quantile plot) draws the correlation between a given sample and the normal distribution. A 45-degree reference line is also plotted.
+#http://www.sthda.com/english/wiki/normality-test-in-r
+```
+
+```{r}
+ggdensity(metaquast_ref$`N50 (Kbp)`)
+#if it is not normal use nonparametric methods = Wilcoxon
+```
+
+```{r}
+total = metaquast_combref %>%
+  select(assembler, `N50 (Kbp)`)
+wilcox.test(data = total,  `N50 (Kbp)` ~ assembler, alternative = c("two.sided", "less", "greater"), paired = F, conf.level = 0.95)
+
+#the total CFU/g is greather in Group A in block 5. The other blocks had similar number of CFU between groups. No significant fdifference overall
+```
+
+#REFERENCE
+```{r}
+N50_ref = metaquast_ref %>%
+  ggplot(aes(y = `N50 (Kbp)`, x = assembler, fill = assembler)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_point(alpha=0.2, position =  position_jitterdodge(), size = 2.5) +
+ labs(x="Assembler",fill = "Assembler") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  theme_classic() + 
+  theme(axis.text = element_text(colour = "black"), strip.text = element_text(colour = "black"),legend.position = "none") +
+  stat_compare_means(label.y = 6, label.x.npc = .3) +
+  scale_fill_aaas()
+N50_ref
+```
+
+
+```{r}
+L75_ref = metaquast_ref %>%
+  ggplot(aes(y = `L75 (K)`, x = assembler, fill = assembler)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_point(alpha=0.2, position =  position_jitterdodge(), size = 2.5) +
+ labs(x="Assembler",fill = "Assembler") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  theme_classic() + 
+  theme(axis.text = element_text(colour = "black"), strip.text = element_text(colour = "black"),legend.position = "none") +
+  stat_compare_means(label.y = 1100, label.x.npc = .3) +
+  scale_fill_aaas()
+L75_ref
+```
+
+```{r}
+largest_ref = metaquast_ref %>%
+  ggplot(aes(y = `Largest contig (Kbp)`, x = assembler, fill = assembler)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_point(alpha=0.2, position =  position_jitterdodge(), size = 2.5) +
+ labs(x="Assembler",fill = "Assembler") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  theme_classic() + 
+  theme(axis.text = element_text(colour = "black"), strip.text = element_text(colour = "black"),legend.position = "none") +
+  stat_compare_means(label.y = 6, label.x.npc = .3) +
+  scale_fill_aaas()
+largest_ref
+```
+
+```{r}
+length_ref = metaquast_ref %>%
+  ggplot(aes(y = `Length (Mbp)`, x = assembler, fill = assembler)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_point(alpha=0.2, position =  position_jitterdodge(), size = 2.5) +
+ labs(x="Assembler",fill = "Assembler") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  theme_classic() + 
+  theme(axis.text = element_text(colour = "black"), strip.text = element_text(colour = "black"),legend.position = "none") +
+  stat_compare_means(label.y = 2.8, label.x.npc = .3) +
+  scale_fill_aaas()
+length_ref
+```
+
+```{r}
+mismatch_ref = metaquast_ref %>%
+  ggplot(aes(y = `Mismatches/100kbp`, x = assembler, fill = assembler)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_point(alpha=0.2, position =  position_jitterdodge(), size = 2.5) +
+ labs(x="Assembler",fill = "Assembler") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  theme_classic() + 
+  theme(axis.text = element_text(colour = "black"), strip.text = element_text(colour = "black"),legend.position = "none") +
+  stat_compare_means(label.y = 7800, label.x.npc = .3) +
+  scale_fill_aaas()
+mismatch_ref
+```
+```{r}
+misassem_ref = metaquast_ref %>%
+  ggplot(aes(y = Misassemblies, x = assembler, fill = assembler)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_point(alpha=0.2, position =  position_jitterdodge(), size = 2.5) +
+ labs(x="Assembler",fill = "Assembler") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  theme_classic() + 
+  theme(axis.text = element_text(colour = "black"), strip.text = element_text(colour = "black"),legend.position = "none") +
+  stat_compare_means(label.y = 75, label.x.npc = .3) +
+  scale_fill_aaas()
+misassem_ref
+```
+
+```{r}
+indels_ref = metaquast_ref %>%
+  ggplot(aes(y = `Indels/100kbp`, x = assembler, fill = assembler)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_point(alpha=0.2, position =  position_jitterdodge(), size = 2.5) +
+ labs(x="Assembler",fill = "Assembler") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  theme_classic() + 
+  theme(axis.text = element_text(colour = "black"), strip.text = element_text(colour = "black"),legend.position = "none") +
+  stat_compare_means(label.y = 600, label.x.npc = .3) +
+  scale_fill_aaas()
+indels_ref
+```
+```{r}
+genofra_ref = metaquast_ref %>%
+  ggplot(aes(y = `Genome Fraction`, x = assembler, fill = assembler)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_point(alpha=0.2, position =  position_jitterdodge(), size = 2.5) +
+ labs(x="Assembler",fill = "Assembler") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  theme_classic() + 
+  theme(axis.text = element_text(colour = "black"), strip.text = element_text(colour = "black"),legend.position = "none") +
+  stat_compare_means(label.y = .5, label.x.npc = .3) +
+  scale_fill_aaas()
+genofra_ref
+```
+
+#COMBINED REFERENCE
+```{r}
+N50_comb = metaquast_combref %>%
+  ggplot(aes(y = `N50 (Kbp)`, x = assembler, fill = assembler)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_point(alpha=0.2, position =  position_jitterdodge(), size = 2.5) +
+ labs(x="Assembler",fill = "Assembler") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  theme_classic() + 
+  theme(axis.text = element_text(colour = "black"), strip.text = element_text(colour = "black"),legend.position = "none") +
+  stat_compare_means(label.y = 1.05, label.x.npc = .3) +
+  scale_fill_aaas()
+N50_comb
+```
+
+```{r}
+L75_comb = metaquast_combref %>%
+  ggplot(aes(y = `L75 (K)`, x = assembler, fill = assembler)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_point(alpha=0.2, position =  position_jitterdodge(), size = 2.5) +
+ labs(x="Assembler",fill = "Assembler") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  theme_classic() + 
+  theme(axis.text = element_text(colour = "black"), strip.text = element_text(colour = "black"),legend.position = "none") +
+  stat_compare_means(label.y = 23000, label.x.npc = .3) +
+  scale_fill_aaas()
+L75_comb
+```
+```{r}
+largest_comb = metaquast_combref %>%
+  ggplot(aes(y = `Largest contig (Kbp)`, x = assembler, fill = assembler)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_point(alpha=0.2, position =  position_jitterdodge(), size = 2.5) +
+ labs(x="Assembler",fill = "Assembler") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  theme_classic() + 
+  theme(axis.text = element_text(colour = "black"), strip.text = element_text(colour = "black"),legend.position = "none") +
+  stat_compare_means(label.y = 125, label.x.npc = .3) +
+  scale_fill_aaas()
+largest_comb
+```
+
+```{r}
+length_comb = metaquast_combref %>%
+  ggplot(aes(y = `Length (Mbp)`, x = assembler, fill = assembler)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_point(alpha=0.2, position =  position_jitterdodge(), size = 2.5) +
+ labs(x="Assembler",fill = "Assembler") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  theme_classic() + 
+  theme(axis.text = element_text(colour = "black"), strip.text = element_text(colour = "black"),legend.position = "none") +
+  stat_compare_means(label.y = 30, label.x.npc = .3) +
+  scale_fill_aaas()
+length_comb
+```
+
+```{r}
+mismatch_comb = metaquast_combref %>%
+  ggplot(aes(y = `Mismatches/100kbp`, x = assembler, fill = assembler)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_point(alpha=0.2, position =  position_jitterdodge(), size = 2.5) +
+ labs(x="Assembler",fill = "Assembler") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  theme_classic() + 
+  theme(axis.text = element_text(colour = "black"), strip.text = element_text(colour = "black"),legend.position = "none") +
+  stat_compare_means(label.y = 7800, label.x.npc = .3) +
+  scale_fill_aaas()
+mismatch_comb
+```
+```{r}
+misassem_comb = metaquast_combref %>%
+  ggplot(aes(y = Misassemblies, x = assembler, fill = assembler)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_point(alpha=0.2, position =  position_jitterdodge(), size = 2.5) +
+ labs(x="Assembler",fill = "Assembler") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  theme_classic() + 
+  theme(axis.text = element_text(colour = "black"), strip.text = element_text(colour = "black"),legend.position = "none") +
+  stat_compare_means(label.y = 150, label.x.npc = .3) +
+  scale_fill_aaas()
+misassem_comb
+```
+
+```{r}
+indels_comb = metaquast_combref %>%
+  ggplot(aes(y = `Indels/100kbp`, x = assembler, fill = assembler)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_point(alpha=0.2, position =  position_jitterdodge(), size = 2.5) +
+ labs(x="Assembler",fill = "Assembler") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  theme_classic() + 
+  theme(axis.text = element_text(colour = "black"), strip.text = element_text(colour = "black"),legend.position = "none") +
+  stat_compare_means(label.y = 120, label.x.npc = .3) +
+  scale_fill_aaas()
+indels_comb
+```
+```{r}
+genofra_comb = metaquast_combref %>%
+  ggplot(aes(y = `Genome Fraction`, x = assembler, fill = assembler)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_point(alpha=0.2, position =  position_jitterdodge(), size = 2.5) +
+ labs(x="Assembler",fill = "Assembler") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  theme_classic() + 
+  theme(axis.text = element_text(colour = "black"), strip.text = element_text(colour = "black"),legend.position = "none") +
+  stat_compare_means(label.y = .075, label.x.npc = .3) +
+  scale_fill_aaas()
+genofra_comb
+```
+
+#NOT ALIGNED
+```{r}
+N50_na = metaquast_noalign %>%
+  ggplot(aes(y = `N50 (Kbp)`, x = assembler, fill = assembler)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_point(alpha=0.2, position =  position_jitterdodge(), size = 2.5) +
+ labs(x="Assembler",fill = "Assembler") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  theme_classic() + 
+  theme(axis.text = element_text(colour = "black"), strip.text = element_text(colour = "black"),legend.position = "none") +
+  stat_compare_means(label.y = .95, label.x.npc = .3) +
+  scale_fill_aaas()
+N50_na
+```
+
+```{r}
+L50_na = metaquast_noalign %>%
+  ggplot(aes(y = `L50 (K)`, x = assembler, fill = assembler)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_point(alpha=0.2, position =  position_jitterdodge(), size = 2.5) +
+ labs(x="Assembler",fill = "Assembler") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  theme_classic() + 
+  theme(axis.text = element_text(colour = "black"), strip.text = element_text(colour = "black"),legend.position = "none") +
+  stat_compare_means(label.y = 12, label.x.npc = .3) +
+  scale_fill_aaas()
+L50_na
+```
+
+```{r}
+L75_na = metaquast_noalign %>%
+  ggplot(aes(y = `L75 (K)`, x = assembler, fill = assembler)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_point(alpha=0.2, position =  position_jitterdodge(), size = 2.5) +
+ labs(x="Assembler",fill = "Assembler") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  theme_classic() + 
+  theme(axis.text = element_text(colour = "black"), strip.text = element_text(colour = "black"),legend.position = "none") +
+  stat_compare_means(label.y = 23000, label.x.npc = .3) +
+  scale_fill_aaas()
+L75_na
+```
+```{r}
+L75_na = metaquast_noalign %>%
+  ggplot(aes(y = `L75 (K)`, x = assembler, fill = assembler)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_point(alpha=0.2, position =  position_jitterdodge(), size = 2.5) +
+ labs(x="Assembler",fill = "Assembler") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  theme_classic() + 
+  theme(axis.text = element_text(colour = "black"), strip.text = element_text(colour = "black"),legend.position = "none") +
+  stat_compare_means(label.y = 23000, label.x.npc = .3) +
+  scale_fill_aaas()
+L75_na
+```
+
+```{r}
+largest_na = metaquast_noalign %>%
+  ggplot(aes(y = `Largest contig (Kbp)`, x = assembler, fill = assembler)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_point(alpha=0.2, position =  position_jitterdodge(), size = 2.5) +
+ labs(x="Assembler",fill = "Assembler") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  theme_classic() + 
+  theme(axis.text = element_text(colour = "black"), strip.text = element_text(colour = "black"),legend.position = "none") +
+  stat_compare_means(label.y = 125, label.x.npc = .3) +
+  scale_fill_aaas()
+largest_na
+```
+```{r}
+length_na = metaquast_noalign %>%
+  ggplot(aes(y = `Length (Mbp)`, x = assembler, fill = assembler)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_point(alpha=0.2, position =  position_jitterdodge(), size = 2.5) +
+ labs(x="Assembler",fill = "Assembler") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  theme_classic() + 
+  theme(axis.text = element_text(colour = "black"), strip.text = element_text(colour = "black"),legend.position = "none") +
+  stat_compare_means(label.y = 30, label.x.npc = .3) +
+  scale_fill_aaas()
+length_na
+```
+
+```{r fig.width=10, fig.height=3}
+not_aligned_plots = ggarrange(N50_na,L75_na,largest_na,length_na,nrow = 1)
+not_aligned_plots
+```
+
+```{r fig.width=10, fig.height=3}
+combinedref_plots = ggarrange(N50_comb,L75_comb,largest_comb,length_comb,misassem_comb,mismatch_comb,indels_comb,genofra_comb,nrow = 2,ncol=4)
+combinedref_plots
+```
+```{r fig.width=10, fig.height=3}
+ref_plots = ggarrange(N50_ref,L75_ref,largest_ref,length_ref,misassem_ref,mismatch_ref,indels_ref,genofra_ref,nrow = 2,ncol=4)
+ref_plots
+```
+
+```{r fig.width=10, fig.height=9}
+assembly_plots = ggarrange(ref_plots,combinedref_plots,not_aligned_plots,nrow=3, labels = c("A","B","C"), heights = c(1,1,.5))
+assembly_plots
+```
+```{r}
+setwd("/Users/karlavasco/OneDrive\ -\ Michigan\ State\ University/Manning_lab/AMR/results/QUAST")
+
+# mm to inch
+setWidth = 10
+
+# font size in pt
+setFontSize = 4
+
+# 1 in R = 0.75pt, so 0.25pt is specified as 
+setLwd <- 0.25/0.75    
+
+
+pdf(file='metaQUAST_combref.pdf',width=setWidth,height=10,pointsize=setFontSize)
+assembly_plots
+dev.off()
+```
+
+```{r}
+setwd("/Users/karlavasco/OneDrive\ -\ Michigan\ State\ University/Manning_lab/AMR/results/QUAST")
+
+# mm to inch
+setWidth = 11
+
+# font size in pt
+setFontSize = 4
+
+# 1 in R = 0.75pt, so 0.25pt is specified as 
+setLwd <- 0.25/0.75    
+
+
+pdf(file='metaQUAST_combref.pdf',width=setWidth,height=6,pointsize=setFontSize)
+combinedref_plots
+dev.off()
+```

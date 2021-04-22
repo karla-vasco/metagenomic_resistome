@@ -1,0 +1,53 @@
+#!/bin/bash --login  
+ 
+########## Define Resources Needed with SBATCH Lines ##########
+#SBATCH --job-name=metaQUAST# give your job a name for easier identification (same as -J)
+#SBATCH --time=168:00:00 # limit of wall clock time - how long will the job take to run? (same as -t)
+#SBATCH --ntasks=1     # number of tasks - how many tasks (nodes) does your job require? (same as -n)
+#SBATCH --cpus-per-task=4 # number of CPUs (or cores) per task (same as -c)
+#SBATCH --mem=50G     # memory required per node - amount of memory (in bytes)
+#SBATCH --output=/mnt/scratch/vascokar/mastitis_study/eofiles/metaQUAST.%j.out #Standard output
+#SBATCH --error=/mnt/scratch/vascokar/mastitis_study/eofiles/metaQUAST.%j.err #Standard error log
+
+########## Diplay the job context ######
+echo Job: $SLUM_JOB_NAME with ID $SLURM_JOB_ID
+echo Running on host `hostname`
+echo Job started at `date '+%T %a %d %b %Y'`
+echo Directory is `pwd`
+echo Using $SLURM_NTASKS processors across $SLURM_NNODES nodes
+
+######### Assign path variables ########
+INPUT_metaSPAdes=/mnt/scratch/vascokar/mastitis_study/results/metaSPAdes/sample_contigs
+INPUT_MEGAHIT=/mnt/scratch/vascokar/mastitis_study/results/MEGAHIT
+OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/QUAST
+REF_GENOME_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/QUAST/ref_genomes
+
+########## Modules to Load ##########
+
+module purge
+module load QUAST/5.0.0
+
+########## Code to Run ###########
+
+cd $INPUT_metaSPAdes
+
+for dir in */; # for each sample dir
+do
+  n=${dir%%} # strip the directory name
+
+cd $OUTPUT_DIRECTORY
+
+mkdir ${n}
+
+cd $REF_GENOME_DIRECTORY
+
+python /opt/software/QUAST/5.0.0/metaquast.py \
+-r GCF_000010425.1_ASM1042v1_genomic.fna.gz,GCF_000024185.1_ASM2418v1_genomic.fna.gz,GCF_000156635.1_ASM15663v1_genomic.fna.gz,GCF_000222855.1_WG1_1.0_genomic.fna.gz,GCF_000421365.1_ASM42136v1_genomic.fna.gz,GCF_000687635.1_ASM68763v1_genomic.fna.gz,GCF_000688015.1_ASM68801v1_genomic.fna.gz,GCF_000711235.1_ASM71123v1_genomic.fna.gz,GCF_000741615.1_Bifmer_genomic.fna.gz,GCF_000753855.1_ASM75385v1_genomic.fna.gz,GCF_000981035.1_ASM98103v1_genomic.fna.gz,GCF_001729385.1_ASM172938v1_genomic.fna.gz,GCF_002735925.1_ASM273592v1_genomic.fna.gz,GCF_004792655.1_ASM479265v1_genomic.fna.gz,GCF_004793885.1_ASM479388v1_genomic.fna.gz,GCF_009911365.1_ASM991136v1_genomic.fna.gz,GCF_015552265.1_ASM1555226v1_genomic.fna.gz,GCF_015558295.1_ASM1555829v1_genomic.fna.gz,GCF_016889925.1_ASM1688992v1_genomic.fna.gz,GCF_900101015.1_IMG-taxon_2608642105_annotated_assembly_genomic.fna.gz,GCF_900290355.1_SbV1_genomic.fna.gz,GCF_902386505.1_UHGG_MGYG-HGUT-02378_genomic.fna.gz,GCF_003018455.1_ASM301845v1_genomic.fna.gz,GCF_000007405.1_ASM740v1_genomic.fna.gz,GCF_000009085.1_ASM908v1_genomic.fna.gz \
+$INPUT_metaSPAdes/${n}/*contigs.fasta \
+$INPUT_MEGAHIT/${n}/*contigs.fa \
+-o $OUTPUT_DIRECTORY/${n}
+
+done
+
+##### Final time stamp ######
+echo Job finished at `date '+%T %a %d %b %Y'`

@@ -1,0 +1,41 @@
+#!/bin/bash --login
+
+########## Define Resources Needed with SBATCH Lines ##########
+#SBATCH --job-name=Prodigal # give your job a name for easier identification (same as -J)
+#SBATCH --time=168:00:00 # limit of wall clock time - how long will the job take to run? (same as -t)
+#SBATCH --ntasks=1     # number of tasks - how many tasks (nodes) does your job require? (same as -n)
+#SBATCH --cpus-per-task=9 # number of CPUs (or cores) per task (same as -c)
+#SBATCH --mem=50G     # memory required per node - amount of memory (in bytes)
+#SBATCH --output=/mnt/scratch/vascokar/mastitis_study/eofiles/prodigal.%j.out #Standard output
+#SBATCH --error=/mnt/scratch/vascokar/mastitis_study/eofiles/prodigal.%j.err #Standard error log
+
+########## Diplay the job context ######
+echo Job: $SLUM_JOB_NAME with ID $SLURM_JOB_ID
+echo Running on host `hostname`
+echo Job started at `date '+%T %a %d %b %Y'`
+echo Directory is `pwd`
+echo Using $SLURM_NTASKS processors across $SLURM_NNODES nodes
+
+######### Assign path variables ########
+INPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/ARG_host/acc
+OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/ARG_host/prodigal_ORF
+
+########## Modules to Load ##########
+module purge
+module load GCCcore/9.3.0 prodigal/2.6.3
+
+########## Code to Run ###########
+cd $INPUT_DIRECTORY
+
+for f in *_beta-lactam_ARG_contigs.fasta # for each sample f
+do
+  n=${f%%_beta-lactam_ARG_contigs.fasta} # strip part of file name
+
+prodigal -i $INPUT_DIRECTORY/${n}_beta-lactam_ARG_contigs.fasta \
+-o $OUTPUT_DIRECTORY/${n}_beta-lactam_coords.gbk \
+-a $OUTPUT_DIRECTORY/${n}_beta-lactam_proteins.faa \
+-p meta
+done
+
+##### Final time stamp ######
+echo Job finished at `date '+%T %a %d %b %Y'`
