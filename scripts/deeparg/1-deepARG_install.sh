@@ -50,3 +50,6 @@ source env/bin/activate
 #To deactivate
 
 deactivate
+
+##### Final time stamp ######
+echo Job finished at `date '+%T %a %d %b %Y'`
