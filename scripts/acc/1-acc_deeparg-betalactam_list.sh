@@ -1,6 +1,6 @@
 #!/bin/bash --login  
 INPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/deepARG/contigs
-OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/ARG_host/acc_deepARG
+OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/ARG_host/acc-deepARG
 
 cd $INPUT_DIRECTORY
 
