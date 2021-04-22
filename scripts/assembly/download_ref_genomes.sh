@@ -1,0 +1,30 @@
+#!/bin/bash --login  
+
+cd /mnt/scratch/vascokar/mastitis_study/data/QUAST/ref_genomes
+
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/bacteria/Sarcina_sp._DSM_11001/latest_assembly_versions/GCF_900101015.1_IMG-taxon_2608642105_annotated_assembly/GCF_900101015.1_IMG-taxon_2608642105_annotated_assembly_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/bacteria/Akkermansiaceae_bacterium/all_assembly_versions/suppressed/GCF_902386505.1_UHGG_MGYG-HGUT-02378/GCF_902386505.1_UHGG_MGYG-HGUT-02378_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/bacteria/Bacteroidales_bacterium/all_assembly_versions/suppressed/GCF_004792655.1_ASM479265v1/GCF_004792655.1_ASM479265v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/bacteria/Bacteroides_sp/latest_assembly_versions/GCF_016889925.1_ASM1688992v1/GCF_016889925.1_ASM1688992v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/bacteria/Bifidobacterium_adolescentis/latest_assembly_versions/GCF_000010425.1_ASM1042v1/GCF_000010425.1_ASM1042v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/bacteria/Bifidobacterium_angulatum/latest_assembly_versions/GCF_000156635.1_ASM15663v1/GCF_000156635.1_ASM15663v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/bacteria/Bifidobacterium_merycicum/latest_assembly_versions/GCF_000741615.1_Bifmer/GCF_000741615.1_Bifmer_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/bacteria/Bifidobacterium_pseudolongum/latest_assembly_versions/GCF_000421365.1_ASM42136v1/GCF_000421365.1_ASM42136v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/bacteria/Bifidobacterium_ruminantium/latest_assembly_versions/GCF_000687635.1_ASM68763v1/GCF_000687635.1_ASM68763v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/bacteria/Catabacter_hongkongensis/latest_assembly_versions/GCF_000981035.1_ASM98103v1/GCF_000981035.1_ASM98103v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/bacteria/Clostridiales_bacterium/all_assembly_versions/suppressed/GCF_009911365.1_ASM991136v1/GCF_009911365.1_ASM991136v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/bacteria/Erysipelotrichaceae_bacterium/all_assembly_versions/suppressed/GCF_004793885.1_ASM479388v1/GCF_004793885.1_ASM479388v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/bacteria/Eubacterium_sp._AB3007/latest_assembly_versions/GCF_000688015.1_ASM68801v1/GCF_000688015.1_ASM68801v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/bacteria/Lachnospiraceae_bacterium/all_assembly_versions/suppressed/GCF_002735925.1_ASM273592v1/GCF_002735925.1_ASM273592v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/archaea/Methanobrevibacter_ruminantium/latest_assembly_versions/GCF_000024185.1_ASM2418v1/GCF_000024185.1_ASM2418v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/archaea/Methanobrevibacter_sp._A27/latest_assembly_versions/GCF_001729385.1_ASM172938v1/GCF_001729385.1_ASM172938v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/bacteria/Ruminococcaceae_bacterium/all_assembly_versions/suppressed/GCF_900752225.1_ERS235568_41/GCF_900752225.1_ERS235568_41_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/bacteria/Ruminococcus_sp._1001095IJ_161003_G2/latest_assembly_versions/GCF_015558295.1_ASM1555829v1/GCF_015558295.1_ASM1555829v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/bacteria/Succinivibrionaceae_bacterium_WG-1/all_assembly_versions/suppressed/GCF_000222855.1_WG1_1.0/GCF_000222855.1_WG1_1.0_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/bacteria/Thermoactinomyces_sp._Gus2-1/latest_assembly_versions/GCF_000753855.1_ASM75385v1/GCF_000753855.1_ASM75385v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/bacteria/Clostridium_sp._1001254J_160919_H10/latest_assembly_versions/GCF_015552265.1_ASM1555226v1/GCF_015552265.1_ASM1555226v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/bacteria/Prevotella_sp._10_H_/latest_assembly_versions/GCF_000711235.1_ASM71123v1/GCF_000711235.1_ASM71123v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/bacteria/Verrucomicrobia_bacterium/all_assembly_versions/suppressed/GCF_900290355.1_SbV1/GCF_900290355.1_SbV1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/003/018/455/GCF_003018455.1_ASM301845v1/GCF_003018455.1_ASM301845v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/007/405/GCF_000007405.1_ASM740v1/GCF_000007405.1_ASM740v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/009/085/GCF_000009085.1_ASM908v1/GCF_000009085.1_ASM908v1_genomic.fna.gz
