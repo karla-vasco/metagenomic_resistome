@@ -1,7 +1,10 @@
 # metagenomic_resistome
 This repository contains all the scripts used for metagenomic processing and resistome analysis. Four different pipelines were compared for resistome characterization. First, metagenome sequences from cattle feces were analyzed with AmrPlusPlus for sequence processing and ARG annotations with the MEGARES 2.0 database. Then, host-removed metagenomes were used for DNA assembly and further annotations with DeepARG, CARD, and HMD-ARG which are protein databases to identify antimicrobial determinants. Finally, ARG-host identification was carried out by identifying taxa associated with ARG-carrying contigs and co-occurrence networks between bacterial taxa and ARGs. Statistical analyses were used to identify assembler performance and resistome composition.
 
-Here you will find two directories: "data" and "scripts". The 'data' folder contain nextera adapter fasta file (needed in the AmrPlusPlus workflow), and resistome databases (fasta and annotations in csv format). The scripts' directory has codes organized by step. The suggested order is shown in the figure https://github.com/karla-vasco/metagenomic_resistome/blob/main/metagenomic_approac_resistome.png
+Here you will find two directories: "data" and "scripts". The 'data' folder contain nextera adapter fasta file (needed in the AmrPlusPlus workflow), and resistome databases (fasta and annotations in csv format). The scripts' directory has codes organized by step. 
+
+![image](https://github.com/karla-vasco/metagenomic_resistome/blob/main/metagenomic_approac_resistome.png)
+
 
 1. amrplusplus = metagenomic processing with AmrPlusPlus v2.0 and read-based metagenome annotations with MEGARES 2.0 and RGI.
 2. assembly = metagenome assembly with MEGAHIT and MetaSPADES. Assembly evaluation with metaQUAST.
@@ -33,4 +36,3 @@ Here you will find two directories: "data" and "scripts". The 'data' folder cont
 18.	Jr FEH, others  with contributions from CD and many. Hmisc: Harrell Miscellaneous. 2021. https://CRAN.R-project.org/package=Hmisc. Accessed 20 Apr 2021.
 19.	Bastian M, Heymann S, Jacomy M. Gephi: An Open Source Software for Exploring and Manipulating Networks. Proc Int AAAI Conf Web Soc Media. 2009;3. https://ojs.aaai.org/index.php/ICWSM/article/view/13937. Accessed 19 Feb 2021.
 
-![image](https://user-images.githubusercontent.com/80479988/115776443-1c408b00-a382-11eb-8af2-433335de5630.png)
