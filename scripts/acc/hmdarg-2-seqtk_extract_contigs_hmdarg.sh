@@ -1,7 +1,7 @@
 #!/bin/bash --login  
-INPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/hmd-arg/ORFs/fasta
-LIST_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/ARG_host/acc-hmdarg/lists
-OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/ARG_host/acc-hmdarg/fasta
+INPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/prodigal-contigs
+LIST_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/ARG_host/acc-hmdarg/betalactam-list
+OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/ARG_host/acc-hmdarg/betalactam-contigs
 
 module load  GCC/9.3.0
 module load seqtk/1.3
