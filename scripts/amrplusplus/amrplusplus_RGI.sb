@@ -18,12 +18,12 @@ echo Using $SLURM_NTASKS processors across $SLURM_NNODES nodes
 
 ######### Assign path variables ########
 
-INPUT_DIRECTORY=/mnt/home/vascokar/mastitis_study/raw_sequences_toy
-HOST_PATH=/mnt/home/vascokar/mastitis_study/host/Bos_taurus.ARS-UCD1.2.dna.toplevel.fa.gz
-OUTPUT_DIRECTORY=/mnt/home/vascokar/mastitis_study/resistome/AmrPlusPlusv2
-WORKING_DIRECTORY=/mnt/home/vascokar/mastitis_study/resistome/AmrPlusPlusv2/work_dir
-CARD_DB_PATH=/mnt/home/vascokar/mastitis_study/resistome/CARD/card.json
-ADAPTERS_PATH=/mnt/home/vascokar/mastitis_study/resistome/adapters/nextera.fa
+INPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/data/raw_sequences
+HOST_PATH=/mnt/scratch/vascokar/mastitis_study/data/host/Bos_taurus.ARS-UCD1.2.dna.toplevel.fa.gz
+CARD_DB_PATH=/mnt/scratch/vascokar/mastitis_study/data/CARD/card.json
+ADAPTERS_PATH=/mnt/scratch/vascokar/mastitis_study/data/adapters/nextera.fa
+OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/AmrPlusPlusv2
+WORKING_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/AmrPlusPlusv2/work_dir
 
 ############# Running with HPCC Version of AmrPlusPlus ############
 module purge
