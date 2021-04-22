@@ -21,8 +21,8 @@ echo Using $SLURM_NTASKS processors across $SLURM_NNODES nodes
 RESITOMEANALYZER_DIRECTORY=/mnt/home/vascokar/resistomeanalyzer
 DATABASE_PATH=/mnt/scratch/vascokar/mastitis_study/data/hmd-arg/arg_v5_linear.fasta
 ANNOTATION_PATH=/mnt/scratch/vascokar/mastitis_study/data/hmd-arg/annotations_hmd-arg.csv
-INPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/hmd-arg/mapped_unique
-OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/hmd-arg/unique_resanalyzer
+INPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/hmd-arg/mapped
+OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/hmd-arg/resistome_analyzer
 
 ########## Modules to Load ##########
 module purge
