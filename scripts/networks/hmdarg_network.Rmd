@@ -1,0 +1,182 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+```
+
+
+
+#Merging abundance score tables (virulence, ARGs and phages) with metadata. Joining the abundance tables with the metadata is useful to filter the samples by group or characteristic.
+```{r}
+#Importing metadata
+metadata=read.table("~/OneDrive - Michigan State University/Manning_lab/AMR/data/hmdarg/2021-04-14_metadata.csv", sep = ",", header = TRUE, na.strings = "") 
+
+#Importing abundance table
+virulence <- read.table("/Users/karlavasco/OneDrive\ -\ Michigan\ State\ University/Manning_lab/Mastitis_project/data/COSMOS_ID/Virulence_relative_abundance/ca-virulence-factors-abs-cohorts_no_ARGs.tsv", sep = "\t", header = TRUE,  na.strings = "", check.names = F) 
+
+ARGs = read.table("~/OneDrive - Michigan State University/Manning_lab/AMR/results/hmd-arg/gene_average_table.csv",sep = ",", header = TRUE, na.strings = "",check.names = F,quote = "\"")
+ARGs[is.na(ARGs)]<-0
+
+Phages <- read.table("/Users/karlavasco/OneDrive\ -\ Michigan\ State\ University/Manning_lab/Mastitis_project/data/COSMOS_ID/Phages_abundance_score/ca-phages-abs-cohorts_2020_10_18_02_27.tsv", sep = "\t", header = TRUE,  na.strings = "", check.names = F) 
+
+taxa <- read.table("/Users/karlavasco/OneDrive\ -\ Michigan\ State\ University/Manning_lab/Mastitis_project/data/COSMOS_ID/dark_matter_bacteria.tsv", sep = "\t", header = TRUE,  na.strings = "", check.names = F) 
+
+taxa_gn <- read.table("/Users/karlavasco/OneDrive\ -\ Michigan\ State\ University/Manning_lab/Mastitis_project/data/Networks/networks_genes_taxa/taxa_genus_level.csv", sep = ",", header = TRUE,  na.strings = "", check.names = F) 
+
+#taxa_fam_gn <- read.table("/Users/karlavasco/OneDrive\ -\ Michigan\ State\ University/Manning_lab/Mastitis_project/data/Networks/networks_genes_taxa/taxa_fam_genus_level.csv", sep = ",", header = TRUE,  na.strings = "", check.names = F)
+```
+
+```{r}
+#Creating an object that only includes the columns with virulence gene names and sample abundances
+virulence_genes <- virulence %>% 
+  select(Gene, 7:165) 
+
+#Transposing table and set the first row as column names
+virulence_genes <-  setNames(data.frame(t(virulence_genes[,-1])), virulence_genes[,1]) 
+
+#setting the row names as a column named "Name", so I can merge this table with the metadata by that variable 
+virulence_genes <- rownames_to_column(virulence_genes, var = "Name") %>%
+  as_tibble() 
+
+#Creating an object that only includes the columns with ARGs and sample abundances
+ARGs_genes <- ARGs %>%
+  select(Gene, 3:161)
+
+#Transposing table and set the first row as column names
+ARGs_genes <-  setNames(data.frame(t(ARGs_genes[,-1])), ARGs_genes[,1]) 
+
+#setting the row names as a column named "Name", so I can merge this table with the metadata by that variable 
+ARGs_genes <- rownames_to_column(ARGs_genes, var = "sequence_id") %>%
+  as_tibble() 
+
+#Creating an object that only includes the columns with Phage species and sample abundances
+Phages_sp <- Phages %>% 
+  select(Species, 9:167) 
+
+#Transposing table and set the first row as column names
+Phages_sp <-  setNames(data.frame(t(Phages_sp[,-1])), Phages_sp[,1]) 
+
+#setting the row names as a column named "Name", so I can merge this table with the metadata by that variable 
+Phages_sp <- rownames_to_column(Phages_sp, var = "Name") %>%
+  as_tibble() 
+```
+
+
+#Genus
+```{r}
+#Merging the transposed abundance tables with my metadata
+meta_viru<- merge(metadata,virulence_genes, by="Name")
+meta_viru_args <- merge(meta_viru,ARGs_genes, by="sequence_id")
+meta_viru_args_phages <- merge(meta_viru_args,Phages_sp, by="Name")
+meta_taxa <- merge(meta_viru_args_phages,taxa_gn, by="Name")
+```
+
+#GENUS LEVEL
+```{r}
+#Matrix for all the samples
+genes <- meta_taxa %>% 
+  select(55:1526) %>%  
+  select(order(colnames(.)))
+
+#Matrix for group A
+genes_A <- meta_taxa %>% 
+  filter(Group == "A") %>% 
+  select(55:1526) %>% 
+  select(order(colnames(.)))
+
+#Matrix for group B
+genes_B <- meta_taxa %>% 
+  filter(Group == "B") %>% 
+  select(55:1526) %>% 
+  select(order(colnames(.)))
+```
+
+#Creating a data frame with the node names. This file is needed to do the network in Gephi
+```{r}
+#This include all the samples
+
+total_ARGs <-  ARGs %>%
+  mutate(Abundance = rowSums(.[3:161])) %>% 
+  mutate(Type = "ARG") %>% 
+  dplyr::rename(Class = class) %>% 
+  select(Type, Class, Gene, Abundance)
+
+
+total_VGs <-  virulence %>% 
+  mutate(Abundance = rowSums(.[7:165]))  %>% 
+  dplyr::rename(Class = Function) %>% 
+  select(Type, Class, Gene, Abundance) %>% 
+  mutate(Type = recode(Type, `Nutrient intake` = "Virulence", Unknown = "Virulence",`Environmental stress protection` = "Virulence", Invasion = "Virulence"))
+
+total_Phages <-  Phages %>% 
+  mutate(Abundance = rowSums(.[9:167]))  %>% 
+  mutate(Type = "Phage") %>% 
+  select(Type, Family, Species, Abundance) %>% 
+  dplyr::rename(Class = Family, Gene = Species)
+
+total_Taxa <-  taxa %>% 
+  mutate(Abundance = rowSums(.[9:167]))  %>% 
+  mutate(Type = "Taxa") %>% 
+  select(Type, Family, Species, Abundance) %>% 
+  dplyr::rename(Class = Family, Gene = Species)
+
+nodes_genes_i <- dplyr::union(total_ARGs, total_VGs)
+
+nodes_genes <- dplyr::union(nodes_genes_i, total_Phages)
+
+nodes_genes_taxa <- dplyr::union(nodes_genes, total_Taxa)
+
+nodes_genes_taxa <- nodes_genes_taxa %>% 
+  mutate(id = 1:2345) %>% 
+  mutate(Label = Gene) %>% 
+  select(Label, id, Abundance, everything())
+
+#Run this code to save the node's file in the desired directory
+write_csv(nodes_genes_taxa, "~/OneDrive - Michigan State University/Manning_lab/AMR/results/hmd-arg/nodes_hmdarg_taxa.csv")
+```
+
+```{r}
+library(Hmisc)
+
+flattenCorrMatrix <- function(cormat, pmat) {
+  ut <- upper.tri(cormat)
+  data.frame(
+    row = rownames(cormat)[row(cormat)[ut]],
+    column = rownames(cormat)[col(cormat)[ut]],
+    cor  =(cormat)[ut],
+    p = pmat[ut]
+    )
+}
+```
+
+##Correlations Group B (antibiotic)
+```{r}
+
+correlation <-rcorr(as.matrix(genes))
+
+edges = flattenCorrMatrix(correlation$r, correlation$P)
+
+edges <- edges %>% 
+  dplyr::rename(Label = row, Target = column, Correlation = cor) %>% 
+  mutate(Type = "undirected") %>% 
+  filter(abs(Correlation) >= 0.75) %>% 
+  filter(abs(p) <= 0.05)
+
+edges_genes <- left_join(edges,nodes_genes_taxa, by = "Label") %>% 
+  dplyr::rename(Source = id) %>% 
+  select(Source, Target, Correlation, Type.x) %>% 
+  dplyr::rename(Label = Target)
+  
+
+edges_genes <- left_join(edges_genes,nodes_genes_taxa, by = "Label") %>% 
+  select(Source, id, Correlation, Type.x) %>% 
+  dplyr::rename(Target = id, Type = Type.x)
+
+#Saving edges file as csv
+write_csv(edges, "~/OneDrive - Michigan State University/Manning_lab/AMR/results/hmd-arg/edges_labels.csv")
+
+write_csv(edges_genes, "~/OneDrive - Michigan State University/Manning_lab/AMR/results/hmd-arg/edges_gephi.csv")
+```
