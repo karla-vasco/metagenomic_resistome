@@ -27,7 +27,7 @@ do
 deeparg predict \
     --model LS \
     -i $INPUT_DIRECTORY/${n}/contigs.fasta \
-    -o $OUTPUT_DIRECTORY/${n}contigs_deeparg \
+    -o $OUTPUT_DIRECTORY/${n}_contigs_deeparg \
     -d $DEEPARG_DATA \
     --type nucl \
     --min-prob 0.8 \
