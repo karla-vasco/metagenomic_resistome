@@ -18,7 +18,7 @@ echo Using $SLURM_NTASKS processors across $SLURM_NNODES nodes
 
 ######### Assign path variables ########
 INPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/metaSPAdes
-OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/hmd-arg/ORFs
+OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/prodigal-contigs
 
 ########## Modules to Load ##########
 module purge
