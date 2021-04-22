@@ -18,11 +18,11 @@ echo Using $SLURM_NTASKS processors across $SLURM_NNODES nodes
 
 ######### Assign path variables ########
 
-RESITOMEANALYZER_DIRECTORY=/mnt/home/vascokar/resistomeanalyzer
+RESITOMEANALYZER_DIRECTORY=/mnt/home/vascokar/mastitis_study/bin/resistomeanalyzer
 DATABASE_PATH=/mnt/scratch/vascokar/mastitis_study/data/card/protein/protein_fasta_protein_homolog_model.fasta
-ANNOTATION_PATH=/mnt/scratch/vascokar/mastitis_study/data/card/protein/annotations_homolog.csv
-INPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/CARD/mapped_unique
-OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/CARD/unique_resanalyzer
+ANNOTATION_PATH=/mnt/scratch/vascokar/mastitis_study/data/card/annotations_homolog.csv
+INPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/CARD/mapped
+OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/CARD/resistome_analyzer
 
 ########## Modules to Load ##########
 module purge
