@@ -18,7 +18,7 @@ echo Using $SLURM_NTASKS processors across $SLURM_NNODES nodes
 
 ######### Assign path variables ########
 INPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/metaSPAdes
-OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/ARG_host/kraken2/
+OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/kraken2
 DATABASE_DIRECTORY=/mnt/home/vascokar/mastitis_study/data/kraken2/silva
 
 ########## Modules to Load ##########
