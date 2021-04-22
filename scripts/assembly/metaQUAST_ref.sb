@@ -19,8 +19,8 @@ echo Using $SLURM_NTASKS processors across $SLURM_NNODES nodes
 ######### Assign path variables ########
 INPUT_metaSPAdes=/mnt/scratch/vascokar/mastitis_study/results/metaSPAdes/sample_contigs
 INPUT_MEGAHIT=/mnt/scratch/vascokar/mastitis_study/results/MEGAHIT
+REF_GENOME_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/data/QUAST/ref_genomes
 OUTPUT_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/QUAST
-REF_GENOME_DIRECTORY=/mnt/scratch/vascokar/mastitis_study/results/QUAST/ref_genomes
 
 ########## Modules to Load ##########
 
