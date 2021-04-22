@@ -152,7 +152,7 @@ flattenCorrMatrix <- function(cormat, pmat) {
 }
 ```
 
-##Correlations Group B (antibiotic)
+##Correlations and edges file for Gephi
 ```{r}
 
 correlation <-rcorr(as.matrix(genes))
